@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess the number</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-app="app.guess">
+
+    <script src="lib/angular.min.js"></script>
+
+    <script>
+        // kontroler to klasa JS (funkcja-konstruktor);
+        // kontroler zawiera definicje danych
+        // oraz zachowanie (funkcjonalność) determinowane przez widok;
+        // widok to projekcja danych modelu na UI
+
+        // powiązanie kontrolera z modułem (framework), rejestracja kontrolera w obiekcie modułu
+        angular.module('app.guess', []).controller('GuessTheNumberController', GuessTheNumberController);
+
+        function GuessTheNumberController($scope) {
+
+            $scope.verifyGuess = function() {
+                $scope.deviation = $scope.original - $scope.guess;
+                $scope.numOfTries = $scope.numOfTries + 1;
+            };
+
+            $scope.initializeGame = function() {
+                $scope.numOfTries = 0;
+                $scope.original = Math.floor((Math.random() * 1000) + 1);
+                $scope.guess = null;
+                $scope.deviation = null;
+            }
+
+            $scope.initializeGame();
+        }
+    </script>
+
+    <script>
+        // ng-app - powiązanie modułu app (framework) z widokiem
+        // ng-controller - powiązanie kontrolera z widokiem
+        // ng-model - odwołanie do zmiennej modelu z kontrolera
+        // ng-click - odwołanie do funkcji z kontrolera
+        // ng-show - wyświetlanie po warunkiem
+        // jeśli wyrażenie jest false, to do elementu jest dodana klasa .ng-hide
+
+        // dyrektywy i interpolacje {{}} wiążą widok (HTML) z kontrolerem
+        // interpolacja są wykonywane w kontekście obiektu $scope
+        // w interpolacji można też użyć funkcji lub obiektu
+        // interpolacje mogą być w tagu, jako wartość atrybutu, jako nazwa atrybutu
+
+        // w ng-src można użyć interpolacji, ale nie wszystkie dyrektywy na to pozwalają
+    </script>
+
+    <div class="container" ng-controller="GuessTheNumberController">
+        <h2>Guess the number</h2>
+        <p class="well lead">Guess the computer generated random number between 1 and 1000.</p>
+        <label>Your guess:</label>
+        <input type="number" ng-model="guess"/>
+        <button ng-click="verifyGuess()" class="btn btn-primary btn-sm">Verify</button>
+        <button ng-click="initializeGame()" class="btn btn-warning btn-sm">Restart</button>
+        <p ng-show="deviation < 0" class="alert alert-warning">Your guess is higher.</p>
+        <p ng-show="deviation > 0" class="alert alert-warning">Your guess is lower.</p>
+        <p ng-show="deviation === 0" class="alert alert-success">You guessed!</p>
+        <p class="text-info">Number of guesses: <span class="badge">{{numOfTries}}</span></p>
+        <p class="text-info">Last guess: {{guess}}</p>
+    </div>
+
+</body>
+</html>
