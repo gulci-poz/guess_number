@@ -19,6 +19,7 @@
         // powiązanie kontrolera z modułem (framework), rejestracja kontrolera w obiekcie modułu
         angular.module('app.guess', []).controller('GuessTheNumberController', GuessTheNumberController);
 
+        // tutaj ma miejsce DI, wstrzykujemy $scope
         function GuessTheNumberController($scope) {
 
             $scope.verifyGuess = function() {
@@ -51,6 +52,9 @@
         // interpolacje mogą być w tagu, jako wartość atrybutu, jako nazwa atrybutu
 
         // w ng-src można użyć interpolacji, ale nie wszystkie dyrektywy na to pozwalają
+
+        // ng-controller tworzy nowy $scope
+        // nie tylko ng-controller, możemy być aktywnych kilka $scope
     </script>
 
     <div class="container" ng-controller="GuessTheNumberController">
